@@ -24,9 +24,14 @@ public class ClassificacaoDao {
         		
                 conn = FactorConnection.getConnection();
                 stmt = conn.prepareStatement("Select posicao, nome, depto, codigo, pontos, a_placar, a_ganhador, erro_zero, " +
-                                             " Round(100 * pontos / ("+qtdeJgFinalizados+" * 5), 2) percent " +
+                                             " Round(100 * pontos / ("+qtdeJgFinalizados+" * 5), 2) percent," +
+								             "   case "+ 
+								             "   when depto like '%DESENV%' then 1 "+
+								             "   when codigo = '050' then 3 "+
+								             "   else 2 "+
+								             " end orderna "+
                                              " from t_cpm_class " + 
-                                             " order by posicao, nome ");
+                                             " order by posicao, 10, nome ");
                 rs = stmt.executeQuery();			                
                 rancking = new ArrayList<Classificacao>();                                  
                 while(rs.next()) {
