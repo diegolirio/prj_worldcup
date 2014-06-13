@@ -28,14 +28,18 @@
 		</div>
 		<br/><br/><br/><br/><br/><br/>
 		<div class="row well text-center"> 
-				<div class="col-md-6">
+				<div class="col-md-4">
 					<a href="/tdv/classificacao">
 						<img src="/tdv/static/img/logo_70_t.png" />
 						<h1> <span class="label label-success">Classificação</span> </h1>
 					</a>
 					<br/>
 				</div>
-				<div class="col-md-6">
+				<div class="col-md-4">
+					<img alt="Java Programming" title="Java Programming" src="/tdv/static/img/java-programming.png" />
+					<br/>
+				</div>
+				<div class="col-md-4">
 					<a href="/tdv/tabela">
 						<img src="/tdv/static/img/FULECO_85.png" />
 						<h1><span class="label label-warning">Tabela</span></h1>

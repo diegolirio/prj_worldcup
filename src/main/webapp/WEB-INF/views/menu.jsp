@@ -30,6 +30,7 @@
       <div class="container">
         <div class="navbar-header">
           <a href="/tdv" class="navbar-brand"><img src="/tdv/static/img/xlogo_heigth_25.png" class="img-responsive"/></a>
+          <a href="/tdv" class="navbar-brand"><img title="java programming" alt="java programming" src="/tdv/static/img/java.png" class="img-responsive" height="25px" width="25px"/></a>
         </div>
         <div class="navbar-collapse collapse" id="navbar-main">
           <ul class="nav navbar-nav">
@@ -66,11 +67,11 @@
 		</div> 
 		 
 		<div class="container">
-			<div class="pull-right">
+			<div class="pull-right well">
 				<div id="id_my_simul" class="text-warning"></div>
 				<h3 class="text-muted" id="id_meu_placar">
 					<c:if test="${aposta_anterior_jogo != null}">
-						<small class="text-danger well" style="text-shadow: 2px -2px white;">
+						<small class="text-danger" style="text-shadow: 2px -2px white;">
 							Meu placar do jogo Anterior: 
 							<a href="/tdv/aposta_jogo/?codigo=${aposta_anterior_jogo.tabela.codigo}">
 								${aposta_anterior_jogo.tabela.timeA} ${ aposta_anterior_jogo.resultadoA} x ${aposta_anterior_jogo.resultadoB} ${aposta_anterior_jogo.tabela.timeB}
@@ -79,7 +80,7 @@
 					</c:if> 
 					<br/> 
 					<c:if test="${aposta_proximo_jogo != null}">
-						<small class="text-success well" style="text-shadow: 2px -2px white;">
+						<small class="text-success" style="text-shadow: 2px -2px white;">
 							Meu placar do Próximo jogo: 
 							<a href="/tdv/aposta_jogo/?codigo=${aposta_proximo_jogo.tabela.codigo}">
 								${aposta_proximo_jogo.tabela.timeA} ${ aposta_proximo_jogo.resultadoA} x ${aposta_proximo_jogo.resultadoB} ${aposta_proximo_jogo.tabela.timeB}
