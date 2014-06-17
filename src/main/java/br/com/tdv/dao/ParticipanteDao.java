@@ -6,9 +6,20 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.sql.DataSource;
+
 import br.com.tdv.model.Usuario;
 
 public class ParticipanteDao {
+	
+	private DataSource dataSource;
+	
+	public ParticipanteDao(DataSource dataSource){
+		this.dataSource = dataSource;
+		System.out.println("----------------------------------------------------------------------------------------");
+		System.out.println("ParticipanteDao.constructor() - datasource = "+dataSource);
+		System.out.println("----------------------------------------------------------------------------------------");
+	}	
 	
 	public Usuario getParticipante(String codigo) {
 		Usuario u = null;
@@ -20,7 +31,7 @@ public class ParticipanteDao {
         			 "	 from t_usuario u "+
         			 " 	 where u.codigo = ? ";        
         try {
-                conn = FactorConnection.getConnection();
+                conn = this.dataSource.getConnection();// FactorConnection.getConnection();
                 stmt = conn.prepareStatement(sql);
                 stmt.setString(1, codigo);
                 rs = stmt.executeQuery();			                                                 
@@ -49,7 +60,7 @@ public class ParticipanteDao {
         String sql = "select u.codigo, u.nome, u.depto, u.email "+
         			 "	 from t_usuario u ";   
         try {
-                conn = FactorConnection.getConnection();
+        		conn = this.dataSource.getConnection();// FactorConnection.getConnection();
                 stmt = conn.prepareStatement(sql);
                 rs = stmt.executeQuery();			     
                 l = new ArrayList<Usuario>();

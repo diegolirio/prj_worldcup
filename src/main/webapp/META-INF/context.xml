@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Context path="/tdv" docBase="tdv">
+ 
+	<Resource name="jdbc/tdv_pool"
+		  global="jdbc/tdv_pool"
+		  auth="Container"
+		  type="javax.sql.DataSource"
+		  driverClassName="oracle.jdbc.driver.OracleDriver"
+		  url="jdbc:oracle:thin:@192.168.9.101:1526/tdp"
+		  username="tdvadm"
+		  password="aged12"
+		   
+		  maxActive="100"
+		  maxIdle="20"
+		  minIdle="5"
+		  maxWait="10000"/>
+		  
+</Context>

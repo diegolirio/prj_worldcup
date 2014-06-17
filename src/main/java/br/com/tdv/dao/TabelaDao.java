@@ -9,9 +9,20 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import javax.sql.DataSource;
+
 import br.com.tdv.model.Tabela;
 
 public class TabelaDao {
+	
+	private DataSource dataSource;
+	
+	public TabelaDao(DataSource dataSource){
+		this.dataSource = dataSource;
+		System.out.println("----------------------------------------------------------------------------------------");
+		System.out.println("TabelaDao.constructor() - datasource = "+dataSource);
+		System.out.println("----------------------------------------------------------------------------------------");
+	}		
 	
 	public Tabela getJogo(int codigo) {
 		Tabela t = null;
@@ -23,7 +34,7 @@ public class TabelaDao {
         			 "	 from t_tabela t "+
         			 " 	 where t.codigo = ? ";        
         try {
-                conn = FactorConnection.getConnection();
+                conn = this.dataSource.getConnection();// FactorConnection.getConnection();
                 stmt = conn.prepareStatement(sql); 
                 stmt.setInt(1, codigo);
                 rs = stmt.executeQuery();			                                                 
@@ -56,7 +67,7 @@ public class TabelaDao {
         			 "	 from t_tabela t " +
         			 " order by 1 ";      
         try {
-                conn = FactorConnection.getConnection();
+        		conn = this.dataSource.getConnection();// FactorConnection.getConnection();
                 stmt = conn.prepareStatement(sql);
                 rs = stmt.executeQuery();
                 tabela = new ArrayList<Tabela>();
@@ -102,7 +113,7 @@ public class TabelaDao {
         			 "   and rownum <= " + qtde + //Common.QTDE_JOGOS_SIMULACAO +
         			 " order by t.codigo";    
         try {
-                conn = FactorConnection.getConnection();
+        		conn = this.dataSource.getConnection();// FactorConnection.getConnection();
                 stmt = conn.prepareStatement(sql);
                 rs = stmt.executeQuery();
                 tabela = new ArrayList<Tabela>();
@@ -141,7 +152,7 @@ public class TabelaDao {
         			 sql += "   and rownum = 1" + 
         			 " order by t.codigo";    
         try {
-                conn = FactorConnection.getConnection();
+        		conn = this.dataSource.getConnection();// FactorConnection.getConnection();
                 stmt = conn.prepareStatement(sql);
                 rs = stmt.executeQuery();
                 tabela = new ArrayList<Tabela>();
@@ -177,7 +188,7 @@ public class TabelaDao {
         			 "	from t_aposta a " +
         			 "	where a.tabela_codigo = ? "; 
         try {
-                conn = FactorConnection.getConnection();
+        		conn = this.dataSource.getConnection();// FactorConnection.getConnection();
                 stmt = conn.prepareStatement(sql);
                 stmt.setInt(1, t.getCodigo());
                 rs = stmt.executeQuery();

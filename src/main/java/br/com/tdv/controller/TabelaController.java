@@ -2,6 +2,10 @@ package br.com.tdv.controller;
 
 import java.util.List;
 
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import javax.sql.DataSource;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -16,10 +20,27 @@ import br.com.tdv.model.Tabela;
 @Controller
 public class TabelaController {
 
+	private DataSource dataSource;
+	public TabelaController(){
+		InitialContext initCtx;		
+		DataSource dataSource = null;
+		try {
+			initCtx = new InitialContext();
+			this.dataSource = (DataSource) initCtx.lookup( "java:/comp/env/jdbc/tdv_pool" );
+			
+			System.out.println("----------------------------------------------------------------------------------------");
+			System.out.println("TabelaController.constructor() - datasource = "+dataSource);
+			System.out.println("----------------------------------------------------------------------------------------");
+		} catch (NamingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}	
+	}	
+	
 	@RequestMapping(value="/classificacao", method=RequestMethod.GET)
 	public ModelAndView getClassificacao() {
 		ModelAndView mv = new ModelAndView("classificacao");
-		ClassificacaoDao dao = new ClassificacaoDao();
+		ClassificacaoDao dao = new ClassificacaoDao(this.dataSource);
 		List<Classificacao> list = dao.getClassificacao();
 		mv.addObject("classificacao", list);	
 		mv.addObject("qtdeJogos", 48);
@@ -30,7 +51,7 @@ public class TabelaController {
 	@RequestMapping(value="/tabela", method=RequestMethod.GET)
 	public ModelAndView getTabela() {
 		ModelAndView mv = new ModelAndView("tabela");
-		List<Tabela> tabela = new TabelaDao().getTabela();
+		List<Tabela> tabela = new TabelaDao(this.dataSource).getTabela();
 		mv.addObject("tabela", tabela);	
 		return mv;
 	}	
@@ -38,7 +59,7 @@ public class TabelaController {
 	@RequestMapping(value="/get_class_simulacao", method=RequestMethod.GET)
 	@ResponseBody
 	public List<Classificacao> getSimulacao() {
-		List<Classificacao> list = new ClassificacaoDao().getClassificacao();	
+		List<Classificacao> list = new ClassificacaoDao(this.dataSource).getClassificacao();	
 		return list;
 	}		
 	
@@ -55,13 +76,13 @@ public class TabelaController {
 	@RequestMapping(value="/jogos_pendentes", method=RequestMethod.GET)
 	@ResponseBody
 	public List<Tabela> getJogosPendentes(int qtde) {
-		return new TabelaDao().getJogosPendentes(qtde);
+		return new TabelaDao(this.dataSource).getJogosPendentes(qtde);
 	}
 	
 	@RequestMapping(value="/jogo_pendente", method=RequestMethod.GET)
 	@ResponseBody
 	public List<Tabela> getJogoPendente(int codigo) {
-		return new TabelaDao().getJogoPendente(codigo); 
+		return new TabelaDao(this.dataSource).getJogoPendente(codigo); 
 	}	
 	
 	@RequestMapping(value="/plus_info", method=RequestMethod.GET)
@@ -72,7 +93,7 @@ public class TabelaController {
 	@RequestMapping(value="/jogos_all", method=RequestMethod.GET)
 	@ResponseBody
 	public List<Tabela> getTabelaJson() {
-		List<Tabela> tabela = new TabelaDao().getTabela(); 
+		List<Tabela> tabela = new TabelaDao(this.dataSource).getTabela(); 
 		return tabela;
 	}		
 	

@@ -8,11 +8,22 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.sql.DataSource;
+
 import br.com.tdv.model.Aposta;
 import br.com.tdv.model.Tabela;
 import br.com.tdv.model.Usuario;
 
 public class ApostaDao {
+	
+	private DataSource dataSource;
+	
+	public ApostaDao(DataSource dataSource){
+		this.dataSource = dataSource;
+		System.out.println("----------------------------------------------------------------------------------------");
+		System.out.println("ApostaDao.constructor() - datasource = "+dataSource);
+		System.out.println("----------------------------------------------------------------------------------------");
+	}
 	
 	public List<Aposta> getApostas(Tabela tabela) {
         List<Aposta> apostas = null;
@@ -33,7 +44,7 @@ public class ApostaDao {
         			 "  order by a.usuario_codigo";      
         
         try {
-                conn = FactorConnection.getConnection();
+                conn = this.dataSource.getConnection();// FactorConnection.getConnection();
                 stmt = conn.prepareStatement(sql);
                 stmt.setInt(1, tabela.getCodigo());
                 rs = stmt.executeQuery();			                
@@ -75,7 +86,7 @@ public class ApostaDao {
 		   			 "     and rownum <= "+qtde+" * (select count(*) from t_usuario) ";    
         
         try {
-                conn = FactorConnection.getConnection();
+        		conn = this.dataSource.getConnection();// FactorConnection.getConnection();
                 stmt = conn.prepareStatement(sql);
                 rs = stmt.executeQuery();			                 
                 apostas = new ArrayList<Aposta>();                                 
@@ -111,7 +122,7 @@ public class ApostaDao {
         			 "     and t.codigo = " + codigo;
         
         try {
-                conn = FactorConnection.getConnection();
+        		conn = this.dataSource.getConnection();// FactorConnection.getConnection();
                 stmt = conn.prepareStatement(sql);
                 rs = stmt.executeQuery();			                 
                 apostas = new ArrayList<Aposta>();                                 
@@ -157,7 +168,7 @@ public class ApostaDao {
         			 "   order by a.tabela_codigo";
         
         try {
-                conn = FactorConnection.getConnection();
+        		conn = this.dataSource.getConnection();// FactorConnection.getConnection();
                 stmt = conn.prepareStatement(sql);
                 stmt.setString(1, usuario.getCodigo());
                 rs = stmt.executeQuery();			                
@@ -221,7 +232,7 @@ public class ApostaDao {
 					  "   order by a.tabela_codigo ";	        
         
         try {
-                conn = FactorConnection.getConnection();
+        		conn = this.dataSource.getConnection();// FactorConnection.getConnection();
                 stmt = conn.prepareStatement(sql+prox);
                 stmt.setString(1, usuario.getCodigo());
                 rs = stmt.executeQuery();		
