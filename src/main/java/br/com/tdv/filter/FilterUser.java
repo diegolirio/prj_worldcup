@@ -10,6 +10,8 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.HashMap;
 
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -18,6 +20,7 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
+import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -40,7 +43,21 @@ public class FilterUser implements Filter {
     // configured. 
     private FilterConfig filterConfig = null;
     
+    private DataSource dataSource;
     public FilterUser() {
+		InitialContext initCtx;		
+		DataSource dataSource = null;
+		try {
+			initCtx = new InitialContext();
+			this.dataSource = (DataSource) initCtx.lookup( "java:/comp/env/jdbc/tdv_pool" );
+			
+			System.out.println("----------------------------------------------------------------------------------------");
+			System.out.println("FilterUser.contructor() - datasource = "+dataSource);
+			System.out.println("----------------------------------------------------------------------------------------");
+		} catch (NamingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}	
     }    
     
     @Autowired
@@ -67,8 +84,8 @@ public class FilterUser implements Filter {
         if ((classificacao == null && req.getParameter("usuario_codigo") != null) || "S".equals(req.getParameter("troca"))) {   
         	// buscar Classificacao
         	Usuario u = new Usuario(req.getParameter("usuario_codigo"));
-        	classificacao = new ClassificacaoDao().getClassificacao(u);
-        	HashMap<String, Aposta> map = new ApostaDao().getApostaAnteriorProximoJogo(u);
+        	classificacao = new ClassificacaoDao(this.dataSource).getClassificacao(u);
+        	HashMap<String, Aposta> map = new ApostaDao(this.dataSource).getApostaAnteriorProximoJogo(u);
         	req.getSession().setAttribute("classificacao_u", classificacao);
         	req.getSession().setAttribute("aposta_proximo_jogo", map.get("proximo"));
         	req.getSession().setAttribute("aposta_anterior_jogo", map.get("anterior"));

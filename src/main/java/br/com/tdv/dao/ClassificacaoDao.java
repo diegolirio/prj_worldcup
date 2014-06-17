@@ -1,17 +1,27 @@
 package br.com.tdv.dao;
 
-import br.com.tdv.model.Classificacao;
-import br.com.tdv.model.Usuario;
-import br.com.tdv.dao.FactorConnection;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.sql.DataSource;
+
+import br.com.tdv.model.Classificacao;
+import br.com.tdv.model.Usuario;
+
 public class ClassificacaoDao {
     
+	private DataSource dataSource;
+	
+	public ClassificacaoDao(DataSource dataSource){
+		this.dataSource = dataSource;
+		System.out.println("----------------------------------------------------------------------------------------");
+		System.out.println("ClassificacaoDao.constructor() - datasource = "+dataSource);
+		System.out.println("----------------------------------------------------------------------------------------");
+	}
+	
     public List<Classificacao> getClassificacao() {
         List<Classificacao> rancking = null;
         Connection conn = null; 
@@ -22,7 +32,7 @@ public class ClassificacaoDao {
         		int qtdeJgFinalizados = this.getQtdeJogoFinalizados();
         		if(qtdeJgFinalizados == 0) qtdeJgFinalizados = 1; 
         		
-                conn = FactorConnection.getConnection();
+                conn = this.dataSource.getConnection(); //FactorConnection.getConnection();
                 stmt = conn.prepareStatement("Select posicao, nome, depto, codigo, pontos, a_placar, a_ganhador, erro_zero, " +
                                              " Round(100 * pontos / ("+qtdeJgFinalizados+" * 5), 2) percent," +
 								             "   case "+ 
@@ -69,7 +79,7 @@ public class ClassificacaoDao {
         		int qtdeJgFinalizados = this.getQtdeJogoFinalizados();
         		if(qtdeJgFinalizados == 0) qtdeJgFinalizados = 1; 
         		
-                conn = FactorConnection.getConnection();
+        		conn = this.dataSource.getConnection(); //FactorConnection.getConnection();
                 stmt = conn.prepareStatement("Select posicao, nome, depto, codigo, pontos, a_placar, a_ganhador, erro_zero, " +
                                              " 100 * pontos / ("+qtdeJgFinalizados+" * 5) percent " +
                                              " from t_cpm_class " + 
@@ -109,7 +119,7 @@ public class ClassificacaoDao {
         
         String sql = "select count(*) qtde from t_tabela t where t.ganhador != 'N'";      
         try {
-                conn = FactorConnection.getConnection();
+        		conn = this.dataSource.getConnection(); //FactorConnection.getConnection();
                 stmt = conn.prepareStatement(sql);
                 rs = stmt.executeQuery();
                 if(rs.next()) {

@@ -6,6 +6,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import javax.sql.DataSource;
+
 public class FactorConnection {
 
 	private static String url;
@@ -33,7 +37,7 @@ public class FactorConnection {
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 			throw new RuntimeException(e);
-		}
+		} 
 		return conn; 
 	}
 	
