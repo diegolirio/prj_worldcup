@@ -36,6 +36,7 @@
           <ul class="nav navbar-nav">
           	<li><a href="/tdv/classificacao">Classificação</a></li>
             <li><a href="/tdv/tabela">Tabela</a></li>
+<!--             <li><a href="/tdv/plus_info">Estatisticas</a></li> -->
           </ul>
           <ul class="nav navbar-nav navbar-right"> 
           	<li><a href="/tdv/simulacao_classificacao?usuario_codigo=${classificacao_u.usuario.codigo}"><span class="glyphicon glyphicon-sort"> Simulação</span></a></li>

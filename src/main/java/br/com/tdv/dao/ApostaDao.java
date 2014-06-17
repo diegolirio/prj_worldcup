@@ -41,22 +41,22 @@ public class ApostaDao {
         			 "        t_usuario u "+
         			 "  where a.usuario_codigo = u.codigo "+
         			 "    and a.tabela_codigo = ? " +
-        			 "  order by a.usuario_codigo";      
+        			 "  order by  a.pontos desc, a.usuario_codigo";      
         
         try {
-                conn = this.dataSource.getConnection();// FactorConnection.getConnection();
-                stmt = conn.prepareStatement(sql);
-                stmt.setInt(1, tabela.getCodigo());
-                rs = stmt.executeQuery();			                
-                apostas = new ArrayList<Aposta>();                                 
-                while(rs.next()) {
-                	Aposta a = new Aposta();
-                	a.setUsuario(new Usuario(rs.getString("usuario_codigo"), rs.getString("nome"), rs.getString("depto")));
-                    a.setResultadoA(rs.getInt("ra"));
-                    a.setResultadoB(rs.getInt("rb"));
-                    a.setPontos(rs.getInt("pontos"));
-                    apostas.add(a);
-                }
+            conn = this.dataSource.getConnection();// FactorConnection.getConnection();
+            stmt = conn.prepareStatement(sql);
+            stmt.setInt(1, tabela.getCodigo());
+            rs = stmt.executeQuery();			                
+            apostas = new ArrayList<Aposta>();                                 
+            while(rs.next()) {
+            	Aposta a = new Aposta();
+            	a.setUsuario(new Usuario(rs.getString("usuario_codigo"), rs.getString("nome"), rs.getString("depto")));
+                a.setResultadoA(rs.getInt("ra"));
+                a.setResultadoB(rs.getInt("rb"));
+                a.setPontos(rs.getInt("pontos"));
+                apostas.add(a);
+            }
         } catch(Exception e) {
             throw new RuntimeException(e);
         } finally {

@@ -74,5 +74,11 @@ public class ParticipanteController {
 	public List<Usuario> getAllParticipantes() {
 		return new ParticipanteDao(this.dataSource).getAllParticipante();
 	}
+	
+	@RequestMapping(value="/get_all_participantes_class", method=RequestMethod.GET)
+	@ResponseBody
+	public List<Classificacao> getAllParticipantesClassificacao() {
+		return new ParticipanteDao(this.dataSource).getAllParticipanteClassificacao();
+	}	
 
 }

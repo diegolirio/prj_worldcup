@@ -23,7 +23,7 @@
 			</div>
 			<div class="row">
 				<div class="col-md-12 text-center">				
-					<a href="#" id="id_recalcular" class="btn btn-success"><span class="glyphicon glyphicon-refresh"></span>  Recalcular</a>
+					<a href="javascript:undefined" id="id_recalcular" class="btn btn-success"><span class="glyphicon glyphicon-refresh"></span>  Recalcular</a>
 					<a href="/tdv/simulacao_classificacao" id="id_zerar" class="btn btn-warning"> Zerar simulação</a>
 				</div>
 			</div>

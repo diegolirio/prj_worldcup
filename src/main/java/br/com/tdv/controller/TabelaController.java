@@ -15,7 +15,9 @@ import org.springframework.web.servlet.ModelAndView;
 import br.com.tdv.dao.ClassificacaoDao;
 import br.com.tdv.dao.TabelaDao;
 import br.com.tdv.model.Classificacao;
+import br.com.tdv.model.ClassificacaoHist;
 import br.com.tdv.model.Tabela;
+import br.com.tdv.model.Usuario;
 
 @Controller
 public class TabelaController {
@@ -62,12 +64,7 @@ public class TabelaController {
 		List<Classificacao> list = new ClassificacaoDao(this.dataSource).getClassificacao();	
 		return list;
 	}		
-	
-	@RequestMapping(value="/simulacao_classificacao2", method=RequestMethod.GET)
-	public String getClassificacaoSimulada() {
-		return "simulacao";
-	}	
-	
+		
 	@RequestMapping(value="/simulacao_classificacao", method=RequestMethod.GET)
 	public String getClassificacaoSimulada2() {
 		return "simulacao2";
@@ -95,6 +92,13 @@ public class TabelaController {
 	public List<Tabela> getTabelaJson() {
 		List<Tabela> tabela = new TabelaDao(this.dataSource).getTabela(); 
 		return tabela;
+	}	
+	
+	@RequestMapping(value="/get_historico_colocacao_json", method=RequestMethod.GET)
+	@ResponseBody
+	public List<ClassificacaoHist> getHistoricoColocacaoJson(Usuario usuario) {
+		List<ClassificacaoHist> ch = new ClassificacaoDao(this.dataSource).getHistoricoColocacao(usuario); 
+		return ch;
 	}		
 	
 }

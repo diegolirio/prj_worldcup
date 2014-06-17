@@ -9,6 +9,8 @@ import java.util.List;
 import javax.sql.DataSource;
 
 import br.com.tdv.model.Classificacao;
+import br.com.tdv.model.ClassificacaoHist;
+import br.com.tdv.model.Tabela;
 import br.com.tdv.model.Usuario;
 
 public class ClassificacaoDao {
@@ -111,6 +113,52 @@ public class ClassificacaoDao {
 		return c;
 	}    
     
+	public List<ClassificacaoHist> getHistoricoColocacao(Usuario participante) {
+		List<ClassificacaoHist> l = null;
+        Connection conn = null; 
+        PreparedStatement stmt = null;
+        ResultSet rs = null; 
+        
+        try {
+        	
+        		String sql = " Select ch.posicao, " +
+        					 "        t.timea, " +
+        					 "        t.ra, " +
+        					 "        t.timeb, "+
+        					 "        t.rb, "+
+        					 "		  ch.pontos " +		
+        					 " 	from t_cpm_classhist ch, " +
+        					 "       t_tabela t " +
+        					 " 	where ch.jogo = t.codigo " +
+        					 "    and ch.usuario = ? " +
+        					 "  order by t.codigo";        	
+        		
+        		conn = this.dataSource.getConnection(); //FactorConnection.getConnection();
+                stmt = conn.prepareStatement(sql);
+                stmt.setString(1, participante.getCodigo());
+                rs = stmt.executeQuery();
+                l = new ArrayList<ClassificacaoHist>();
+                while(rs.next()) {       
+                	ClassificacaoHist c = new ClassificacaoHist();
+                    c.setPosicao(rs.getInt("posicao"));
+                    c.setPontos(rs.getInt("pontos"));
+                    Tabela t = new Tabela();
+                    t.setTimeA(rs.getString("timea"));
+                    t.setTimeB(rs.getString("timeb"));
+                    t.setResultadoA(rs.getInt("ra")); 
+                    t.setResultadoB(rs.getInt("rb"));
+                    c.setTabela(t);
+                    l.add(c);
+                }
+        } catch(Exception e) {
+            throw new RuntimeException(e);
+        } finally {
+        	System.out.println("ClassificacaoDao.getHistoricoColocacao(participante): executado...!");
+            FactorConnection.close(conn, stmt, rs);
+        } 
+		return l;
+	}   
+	
 	public int getQtdeJogoFinalizados() {
 		int result = 0;
         Connection conn = null;
@@ -132,6 +180,6 @@ public class ClassificacaoDao {
             FactorConnection.close(conn, stmt, rs); 
         } 
         return result;			
-	}    
+	} 	
     
 }

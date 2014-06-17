@@ -8,6 +8,7 @@ import java.util.List;
 
 import javax.sql.DataSource;
 
+import br.com.tdv.model.Classificacao;
 import br.com.tdv.model.Usuario;
 
 public class ParticipanteDao {
@@ -80,5 +81,42 @@ public class ParticipanteDao {
         } 
         return l;				
 	}	
+	
+	public List<Classificacao> getAllParticipanteClassificacao() {
+		List<Classificacao> l = null;
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null; 
+        
+        String sql = " select c.posicao, u.codigo, u.nome, u.depto, u.email " +
+        			 "   from t_cpm_class c, "+
+        			 "        t_usuario u "+
+        			 "  where c.codigo = u.codigo "+
+        			 " order by c.posicao ";
+ 
+        try {
+        		conn = this.dataSource.getConnection();// FactorConnection.getConnection();
+                stmt = conn.prepareStatement(sql);
+                rs = stmt.executeQuery();			     
+                l = new ArrayList<Classificacao>();
+                while(rs.next()) {
+                	Usuario u = new Usuario();
+                	u.setCodigo(rs.getString("codigo"));
+                	u.setNome(rs.getString("nome"));
+                	u.setDepartamento(rs.getString("depto"));
+                	u.setEmail(rs.getString("email"));
+                	Classificacao c = new Classificacao();
+                	c.setUsuario(u);
+                	c.setPosicao(rs.getInt("posicao"));
+                	l.add(c);
+                }
+        } catch(Exception e) {
+            throw new RuntimeException(e);
+        } finally {
+        	System.out.println("ParticipanteDao.getAllParticipanteClassificacao(): executado...!");
+            FactorConnection.close(conn, stmt, rs);
+        } 
+        return l;				
+	}		
 
 }

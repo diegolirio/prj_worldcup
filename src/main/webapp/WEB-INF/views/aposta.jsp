@@ -1,7 +1,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ page session="false" %>
-<html>
+<html> 
 <head>
 	<title>${usuario.nome} &bull; Aposta</title>
 	<link rel="shortcut icon" href="/tdv/static/img/ball_24.gif">
@@ -36,9 +36,9 @@
 					<table class="table">
 						<tr class="text-success">			    	
 							<td></td>
-					    	<td colspan="5" class="text-center">Jogo</td>
+					    	<td colspan="5" class="text-center">Resultado do Jogo</td>
 					    	<td></td>
-					    	<td colspan="3" class="text-center">Palpite</td>
+					    	<td colspan="3" class="text-center">Aposta</td>
 					    	<td class="text-center">Pontos</td>
 					    </tr> 				
 						<c:forEach var="a" items="${aposta}" varStatus="status">
@@ -76,7 +76,7 @@
 						    </tr> 
 						</c:forEach>	
 			  				<c:if test="${fn:length(aposta) <= 0}">
-							<h3 class="alert alert-warning">Aposta Não Disponivel </h3>
+							<h3 class="alert alert-warning">Aposta Nao Disponivel </h3>
 						</c:if>	
 					</table>			
 				</div>
