@@ -60,7 +60,7 @@
 		
 		<div class="container well">
 			<h3>
-				<a href="/tdv/aposta/?codigo=${classificacao_u.usuario.codigo}"><span class="glyphicon glyphicon-user"> </span><span class="text-success">${classificacao_u.usuario.nome} </span></a> <small>(${classificacao_u.usuario.codigo})</small>  
+				<a href="/tdv/aposta_participante/?codigo=${classificacao_u.usuario.codigo}"><span class="glyphicon glyphicon-user"> </span><span class="text-success">${classificacao_u.usuario.nome} </span></a> <small>(${classificacao_u.usuario.codigo})</small>  
 				<span class="text-center text-warning">&bull; ${classificacao_u.posicao}&deg; Colocado </span> 
 				<span class="text-right text-info">&bull; ${classificacao_u.pontos} pontos </span> 
 				<a href="#" class="troca_usuario" data-toggle="tooltip" data-placement="right" title="Trocar de usuário"><small class="glyphicon glyphicon-random"></small></a>

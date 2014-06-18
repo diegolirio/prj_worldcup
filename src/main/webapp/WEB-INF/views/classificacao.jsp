@@ -78,7 +78,7 @@
 					    	<td class="text-center">${p.posicao}&deg;</td>
 					    	<!-- <td>${p.usuario.codigo}</td> -->
 					    	<td>			    		 
-					    		<small><a href="/tdv/aposta/?codigo=${p.usuario.codigo}"> ${p.usuario.nome}</a></small>
+					    		<small><a href="/tdv/aposta_participante/?codigo=${p.usuario.codigo}"> ${p.usuario.nome}</a></small>
 					    		<c:if test="${p.posicao == 1}">
 					    			<span class="glyphicon glyphicon-star text-warning"></span>
 					    		</c:if>

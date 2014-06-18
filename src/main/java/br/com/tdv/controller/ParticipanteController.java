@@ -39,6 +39,38 @@ public class ParticipanteController {
 		}	
 	}
 	
+	@RequestMapping(value = "/aposta_participante", method = RequestMethod.GET)
+	public ModelAndView getApostasParticipante(Usuario usuario) {
+		ModelAndView mv = new ModelAndView("aposta_participante");
+		return mv;
+	}		
+	
+	@RequestMapping(value="/get_usuario", method=RequestMethod.GET)
+	@ResponseBody
+	public Usuario getUsuario(String codigo) {
+		Usuario u = new ParticipanteDao(this.dataSource).getParticipante(codigo);
+		return u;
+	}
+	
+	@RequestMapping(value="/get_apostas", method=RequestMethod.GET)
+	@ResponseBody
+	public List<Aposta> getApostasPorUsuario(Usuario usuario) {
+		return new ApostaDao(this.dataSource).getApostas(usuario);
+	}	
+	
+	@RequestMapping(value="/get_classificacao_participante", method=RequestMethod.GET)
+	@ResponseBody
+	public Classificacao getClassificacaoParticipante(Usuario usuario) {
+		return new ClassificacaoDao(dataSource).getClassificacao(usuario);
+	}		
+	
+	@RequestMapping(value="/get_all_participantes_class", method=RequestMethod.GET)
+	@ResponseBody
+	public List<Classificacao> getAllParticipantesClassificacao() {
+		return new ParticipanteDao(this.dataSource).getAllParticipanteClassificacao();
+	}		
+	
+	// Obsoleto
 	@RequestMapping(value = "/aposta", method = RequestMethod.GET)
 	public ModelAndView getApostas(Usuario usuario) {
 		ModelAndView mv = new ModelAndView("aposta");
@@ -47,25 +79,10 @@ public class ParticipanteController {
 		mv.addObject("aposta", apostas);
 		mv.addObject("usuario", usuario);
 		// Devolver colocacao atual, pontos, ar, ag, er, jogos realizados
-		
-		InitialContext initCtx;		
-		DataSource dataSource = null;
-		try {
-			initCtx = new InitialContext();
-			dataSource = (DataSource) initCtx.lookup( "java:/comp/env/jdbc/tdv_pool" );
-			
-			System.out.println("----------------------------------------------------------------------------------------");
-			System.out.println("datasource = "+dataSource);
-			System.out.println("----------------------------------------------------------------------------------------");
-			
-			Classificacao c = new ClassificacaoDao(dataSource).getClassificacao(usuario);
-			mv.addObject("classificacao", c);
-			mv.addObject("qtdeJogos", c.getObservacao());			
-		} catch (NamingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}	
-		
+
+		Classificacao c = new ClassificacaoDao(dataSource).getClassificacao(usuario);
+		mv.addObject("classificacao", c);
+		mv.addObject("qtdeJogos", c.getObservacao());	
 		return mv;
 	}
 	
@@ -74,11 +91,5 @@ public class ParticipanteController {
 	public List<Usuario> getAllParticipantes() {
 		return new ParticipanteDao(this.dataSource).getAllParticipante();
 	}
-	
-	@RequestMapping(value="/get_all_participantes_class", method=RequestMethod.GET)
-	@ResponseBody
-	public List<Classificacao> getAllParticipantesClassificacao() {
-		return new ParticipanteDao(this.dataSource).getAllParticipanteClassificacao();
-	}	
 
 }

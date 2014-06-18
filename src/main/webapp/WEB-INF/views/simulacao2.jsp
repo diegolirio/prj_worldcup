@@ -389,11 +389,11 @@
 					}
 				});		 
 				first_to_last.observacao = 'N';
-				
+				 
 				var tr = ""; 	
 				tr += '<tr class="'+get_row_color(i, first_to_last.usuario.codigo)+'">';
 				tr +=     '<td class="text-center">'+first_to_last.posicao+'º</td>'; 
-				tr +=     '<td><small>'+first_to_last.usuario.nome+'</small></td>';
+				tr +=     '<td><a href="/tdv/aposta_participante/?codigo='+first_to_last.usuario.codigo+'" target="_blank"><small>'+first_to_last.usuario.nome+'</small></a></td>';
 				tr +=     '<td class="text-muted"><small>'+first_to_last.usuario.departamento+'</small></td>';
 				tr +=     '<td class="text-center">'+first_to_last.pontos+'<small class="text-muted"> (+'+get_pontos_total_simulado(first_to_last.usuario.codigo)+')</small></td>';
 				tr +=     '<td class="text-center text-success"><small>'+(get_acerto(first_to_last.usuario.codigo, 5)+first_to_last.acertoPlacar)+'</small></td>';

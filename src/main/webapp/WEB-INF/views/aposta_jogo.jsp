@@ -54,7 +54,7 @@
 							  <c:if test="${status.count % 2 != 0 && a.usuario.codigo != classificacao_u.usuario.codigo}">  
 							    <tr class="warning">			    	
 							  </c:if>		    	 
-									<td><small><a href="/tdv/aposta/?codigo=${a.usuario.codigo}">${a.usuario.codigo} - ${a.usuario.nome}</a><span class="text-muted"> (${a.usuario.departamento})</span></small></td>
+									<td><small><a href="/tdv/aposta_participante/?codigo=${a.usuario.codigo}">${a.usuario.codigo} - ${a.usuario.nome}</a><span class="text-muted"> (${a.usuario.departamento})</span></small></td>
 									<td class="text-center">
 										<c:if test="${jogo.ganhador eq 'N'}">
 											<span class="label label-default">${a.pontos}</span>
