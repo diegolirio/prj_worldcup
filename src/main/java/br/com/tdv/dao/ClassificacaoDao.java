@@ -41,9 +41,19 @@ public class ClassificacaoDao {
 								             "   when depto like '%DESENV%' then 1 "+
 								             "   when codigo = '050' then 3 "+
 								             "   else 2 "+
-								             " end orderna "+
-                                             " from t_cpm_class " + 
-                                             " order by posicao, 10, nome ");
+								             " end orderna, "+
+								              
+								             " ( select posicao " + 
+								             "   from t_cpm_classhist c "+
+								             "   where c.jogo = ( " +
+								             "                    select max(jogo) "+
+								             "                     from t_cpm_classhist c " +
+								             "                     where c.jogo < ( select max(jogo) "+
+								             "                                       from t_cpm_classhist cc ) ) "+
+								             "     and to_number(c.usuario) = to_number(cl.codigo) ) posicao_ant " +
+								             
+                                             " from t_cpm_class cl" + 
+                                             " order by posicao, 10, nome "); 
                 rs = stmt.executeQuery();			                
                 rancking = new ArrayList<Classificacao>();                                  
                 while(rs.next()) {
@@ -60,6 +70,7 @@ public class ClassificacaoDao {
                     c.setAcertoPlacar(rs.getInt("a_placar"));
                     c.setAcertoGanhador(rs.getInt("a_ganhador"));
                     c.setErroZero(rs.getInt("erro_zero"));
+                    c.setPosicaoAnterior(rs.getInt("posicao_ant"));
                     rancking.add(c);
                 }
         } catch(Exception e) {
@@ -130,7 +141,7 @@ public class ClassificacaoDao {
         					 " 	from t_cpm_classhist ch, " +
         					 "       t_tabela t " +
         					 " 	where ch.jogo = t.codigo " +
-        					 "    and ch.usuario = ? " +
+        					 "    and to_number(ch.usuario) = to_number(?) " +
         					 "  order by t.codigo";        	
         		
         		conn = this.dataSource.getConnection(); //FactorConnection.getConnection();

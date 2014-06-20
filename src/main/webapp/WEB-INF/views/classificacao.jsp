@@ -55,8 +55,8 @@
 				<!-- Table -->
 				<table class="table">
 					<tr class="text-success">			    	
-				    	<td class="text-center">Colocação</td>
-				    	<!-- <td>${p.usuario.codigo}</td> -->
+				    	<td class="text-center" title="Colocação">Col</td>
+				    	<td></td>
 				    	<td>Participante</td>
 				    	<td>Departamento/Local</td>
 				    	<td><small>AP</small></td>
@@ -76,7 +76,18 @@
 					    <tr class="warning">			    	
 					  </c:if>					     
 					    	<td class="text-center">${p.posicao}&deg;</td>
-					    	<!-- <td>${p.usuario.codigo}</td> -->
+					    	<td class="text-center text-muted" ><small>
+					    	    <c:if test="${p.posicaoAnterior - p.posicao > 0 }">
+					    	    	<span class="glyphicon glyphicon-arrow-up text-success"></span> ${p.posicaoAnterior - p.posicao}
+					    	    </c:if>
+					    	    <c:if test="${p.posicaoAnterior - p.posicao < 0 }">
+					    	    	<span class="glyphicon glyphicon-arrow-down text-danger"></span> ${(p.posicaoAnterior - p.posicao) * -1}
+					    	    </c:if>	
+					    	    <c:if test="${p.posicaoAnterior - p.posicao == 0 }">
+					    	    	<span class="glyphicon glyphicon-minus"></span>
+					    	    </c:if>						    	    				    	    
+					    		
+					    	</small></td>
 					    	<td>			    		 
 					    		<small><a href="/tdv/aposta_participante/?codigo=${p.usuario.codigo}"> ${p.usuario.nome}</a></small>
 					    		<c:if test="${p.posicao == 1}">

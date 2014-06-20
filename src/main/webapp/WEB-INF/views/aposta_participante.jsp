@@ -9,7 +9,7 @@
 	 <link href="/tdv/static/bootstrap/css/bootstrap.css" rel="stylesheet">		
 </head>
 <body>
-
+ 
 	<jsp:include page="menu.jsp"></jsp:include>
 	
 	<div class="container" id="id_container_content_part"> 
@@ -70,6 +70,9 @@
   		var classificacao_json = [];
   		var participantes_json = [];
   		var historico_json = [];
+  		
+  		var codigo_lider = '000';
+  		var nome_lider = "";
   
 	 	function _GET_(name) {
 	 	  	var url   = window.location.search.replace("?", "");
@@ -147,7 +150,13 @@
 	 					var html_cbb = "";
 	 					html_cbb = '<option value="">Selecione o participante...</option>';
 	 					$.each(participantes_json, function(i, c) {
-	 						html_cbb += '<option value="'+c.usuario.codigo+'" ' + (c.usuario.codigo == codigo ? "selected" : "" ) + ' >'+c.posicao+'º '+c.usuario.nome+' ('+c.usuario.codigo+' ) - '+ c.usuario.departamento +'</option>';
+	 						if(i > 0) {
+	 							html_cbb += '<option value="'+c.usuario.codigo+'" ' + (c.usuario.codigo == codigo ? "selected" : "" ) + ' >'+c.posicao+'º '+c.usuario.nome+' ('+c.usuario.codigo+' ) - '+ c.usuario.departamento +'</option>';
+	 						} else {
+	 							codigo_lider = c.usuario.codigo;
+	 							var nomes = c.usuario.nome.split(" ");
+	 							nome_lider = nomes[0];
+	 						}
 	 					});
 	 					$('#id_cbb_part').html(html_cbb); 
 	 					if (participantes_json.length > 0) {
@@ -180,20 +189,28 @@
 	 					//alert(JSON.stringify(retorno_historico));
 	 					historico_json = retorno_historico;
 						var data = get_data_line(retorno_historico);
-						var options = {
-								title: 'Histótico de Colocação',
-								//width:900, height:300,
-								vAxis: {maxValue: 10, direction: -1} // Inverte a Coluna em ordem crescente...
-							  };
-						var chart = new google.visualization.LineChart(document.getElementById('id_char_line'));		
-						chart.draw(data, options);
+						$.getJSON('/tdv/get_historico_colocacao_json/?codigo='+codigo_lider,
+								  function(retorno_historico_lider) {
+											data.addColumn('number', nome_lider); 
+											$.each(retorno_historico_lider, function(i, l) {
+												data.setValue(i, 2, l.posicao);					
+											});											
+											var options = {
+													title: 'Histótico de Colocação',
+													//width:900, height:300,
+													vAxis: {maxValue: 10, direction: -1} // Inverte a Coluna em ordem crescente...
+												  };
+											var chart = new google.visualization.LineChart(document.getElementById('id_char_line'));		
+											chart.draw(data, options);							
+						});
+
 	 		});
 	    }  	    
   	    
 	    function get_data_line(historico_json) {
 			var data = new google.visualization.DataTable();
 			data.addColumn('string', 'Jogos');
-			data.addColumn('number', 'Colocação');
+			data.addColumn('number', usuario_json.nome.split(" ")[0]);//'Colocação');
 			data.addRows(historico_json.length);
 			$.each(historico_json, function(i, h) {
 				data.setValue(i, 0, h.tabela.timeA + " x " + h.tabela.timeB);

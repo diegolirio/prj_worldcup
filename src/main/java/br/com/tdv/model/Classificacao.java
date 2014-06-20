@@ -10,6 +10,7 @@ public class Classificacao {
     private int acertoPlacar;
     private int acertoGanhador;
     private int erroZero;
+    private int posicaoAnterior;
     
     public int getAcertoPlacar() {
 		return acertoPlacar;
@@ -77,6 +78,14 @@ public class Classificacao {
 
 	public void setObservacao(String observacao) {
 		this.observacao = observacao;
+	}
+
+	public int getPosicaoAnterior() {
+		return posicaoAnterior;
+	}
+
+	public void setPosicaoAnterior(int posicaoAnterior) {
+		this.posicaoAnterior = posicaoAnterior;
 	}
     
     

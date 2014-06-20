@@ -46,7 +46,8 @@
 				<div class="table-responsive">					
 					<table class="table" id="id_table_simulator"> 
 						<tr class="text-success">			    	
-					    	<td class="text-center">Colocação</td>
+					    	<td class="text-center" title="Colocação">Col</td>
+					    	<td class="text-center text-muted"></td>
 					    	<td >Participante</td>
 					    	<td>Departamento/Local</td>
 					    	<td class="text-center">Pontos</td>
@@ -147,7 +148,10 @@
 										    	  function(retorno) {
 									 					classificacao = retorno;
 									 					//alert(JSON.stringify(classificacao));
-														
+									 					$.each(classificacao, function( i, c) {
+									 						classificacao[i].posicaoAnterior = c.posicao;
+									 		 			});																
+									 					
 									 					// 5º Calcula pontuacao nas apostas 		
 									 					// Comentado para não calcular a primeira...
 														//calc_aposta(jogos_pendentes[index_atual]); 
@@ -392,7 +396,19 @@
 				 
 				var tr = ""; 	
 				tr += '<tr class="'+get_row_color(i, first_to_last.usuario.codigo)+'">';
-				tr +=     '<td class="text-center">'+first_to_last.posicao+'º</td>'; 
+				tr +=     '<td class="text-center">'+first_to_last.posicao+'º</td>';
+				
+				var pos_sobe_desce = (first_to_last.posicaoAnterior-first_to_last.posicao);
+				tr +=     '<td class="text-center text-muted"><small>';
+				if (pos_sobe_desce > 0) {
+					tr +=     '<span class="glyphicon glyphicon-arrow-up text-success">'+pos_sobe_desce;
+				} else if (pos_sobe_desce < 0) {
+					tr +=     '<span class="glyphicon glyphicon-arrow-down text-danger">'+pos_sobe_desce*-1;
+				} else {
+					tr +=     '<span class="glyphicon glyphicon-minus">';
+				}
+				tr +=     '</span></small></td>'; // posicao atual
+				
 				tr +=     '<td><a href="/tdv/aposta_participante/?codigo='+first_to_last.usuario.codigo+'" target="_blank"><small>'+first_to_last.usuario.nome+'</small></a></td>';
 				tr +=     '<td class="text-muted"><small>'+first_to_last.usuario.departamento+'</small></td>';
 				tr +=     '<td class="text-center">'+first_to_last.pontos+'<small class="text-muted"> (+'+get_pontos_total_simulado(first_to_last.usuario.codigo)+')</small></td>';
@@ -412,13 +428,18 @@
 				tr += '<td class="text-center text-muted">X</td>'; 
 				tr += '<td class="text-center"><b><span class="result_ab rb'+first_to_last.usuario.codigo+'">'+rb+'</b></span></td>';
 				tr += '</tr>';
-				
+				 
 				$('#id_class').append(tr);
 				
 				// Popula colocacao e posicao do usuario logado na simulacao e meu placar do usuario logado
 				if(user_cod == first_to_last.usuario.codigo) {
 					var perfil_sim = '<span class="text-info">Simulação: </span><span>'+first_to_last.posicao+'º Colocado</span> - ' +
-									 '<span>'+first_to_last.pontos+' pontos</span>';
+									 '<span>'+first_to_last.pontos+' pontos</span> '; 
+					if (pos_sobe_desce > 0) {
+						perfil_sim +=     '<span class="glyphicon glyphicon-arrow-up text-success">'+pos_sobe_desce+'</span>';
+					} else if (pos_sobe_desce < 0) {
+						perfil_sim +=     '<span class="glyphicon glyphicon-arrow-down text-danger">'+(pos_sobe_desce*-1)+'</span>';
+					}
 					$('#id_my_simul').html(perfil_sim);
 				}
 								
@@ -450,9 +471,12 @@
 				$('#id_table_message').html('calculando...');
 				
 			 	$.getJSON('/tdv/get_class_simulacao/', 
-			    	  function(retorno) { 
+			    	  function(retorno) {  
 		 					classificacao = retorno;
 		 					//alert(JSON.stringify(classificacao));
+		 					$.each(classificacao, function( i, c) {
+		 						classificacao[i].posicaoAnterior = c.posicao;
+		 		 			});			 					
 		 					
 		 					// 1. Preenche Resultado do Jogo
 		 					jogo = jogos_pendentes[index_atual];
