@@ -92,7 +92,7 @@ public class ParticipanteDao {
         			 "   from t_cpm_class c, "+
         			 "        t_usuario u "+
         			 "  where c.codigo = u.codigo "+
-        			 " order by c.posicao ";
+        			 " order by c.posicao, c.nome ";
  
         try {
         		conn = this.dataSource.getConnection();// FactorConnection.getConnection();

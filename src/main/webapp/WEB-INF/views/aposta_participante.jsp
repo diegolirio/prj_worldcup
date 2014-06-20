@@ -150,14 +150,10 @@
 	 					var html_cbb = "";
 	 					html_cbb = '<option value="">Selecione o participante...</option>';
 	 					$.each(participantes_json, function(i, c) {
-	 						if(i > 0) {
-	 							html_cbb += '<option value="'+c.usuario.codigo+'" ' + (c.usuario.codigo == codigo ? "selected" : "" ) + ' >'+c.posicao+'º '+c.usuario.nome+' ('+c.usuario.codigo+' ) - '+ c.usuario.departamento +'</option>';
-	 						} else {
-	 							codigo_lider = c.usuario.codigo;
-	 							var nomes = c.usuario.nome.split(" ");
-	 							nome_lider = nomes[0];
-	 						}
+ 							html_cbb += '<option value="'+c.usuario.codigo+'" ' + (c.usuario.codigo == codigo ? "selected" : "" ) + ' >'+c.posicao+'º '+c.usuario.nome+' ('+c.usuario.codigo+' ) - '+ c.usuario.departamento +'</option>';
 	 					});
+						codigo_lider = participantes_json[0].usuario.codigo;
+						nome_lider = get_first_name(participantes_json[0].usuario.nome);
 	 					$('#id_cbb_part').html(html_cbb); 
 	 					if (participantes_json.length > 0) {
 	 						// popula grafico....
@@ -189,6 +185,14 @@
 	 					//alert(JSON.stringify(retorno_historico));
 	 					historico_json = retorno_historico;
 						var data = get_data_line(retorno_historico);
+						if (codigo_lider == code_user) {							
+							codigo_lider = participantes_json[1].usuario.codigo;
+							nome_lider = get_first_name(participantes_json[1].usuario.nome);							
+						} else {
+							codigo_lider = participantes_json[0].usuario.codigo;
+							nome_lider = get_first_name(participantes_json[0].usuario.nome);
+						} 
+						// busca lider...
 						$.getJSON('/tdv/get_historico_colocacao_json/?codigo='+codigo_lider,
 								  function(retorno_historico_lider) {
 											data.addColumn('number', nome_lider); 
@@ -206,6 +210,10 @@
 
 	 		});
 	    }  	    
+  	    
+  	    function get_first_name(name_complete) {
+  	    	return name_complete.split(" ")[0];		  	    	
+  	    }
   	    
 	    function get_data_line(historico_json) {
 			var data = new google.visualization.DataTable();
