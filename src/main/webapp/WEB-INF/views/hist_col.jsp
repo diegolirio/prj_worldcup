@@ -23,6 +23,17 @@
 		
 		init();
 		
+	 	function _GET_(name) {
+	 	  	var url   = window.location.search.replace("?", "");
+	 	  	var itens = url.split("&");
+	 	  	for(n in itens) {
+	 	    	if( itens[n].match(name) ) {
+	 	      		return decodeURIComponent(itens[n].replace(name+"=", ""));
+	 	    	}
+	 	  	}
+	 	  	return null;
+	 	} 		
+		
 		function init() {
 			get_all_participantes();	
 		}
@@ -30,20 +41,21 @@
 		var codigoPart = -1;
 		
 		function setCodigoPart(codigo) {
-			codigoPart = codigo;
+			codigoPart = codigo == null ? participantes_class_json[0].usuario.codigo : codigo;
 		}
 		
-		function get_all_participantes() {
+		function get_all_participantes() {   
 	 		$.getJSON('/tdv/get_all_participantes_class/',  
 	 				 function(retorno_participantes) { 
 	 					participantes_class_json = retorno_participantes;
+	 					var cod = _GET_("usuario_codigo");
+	 					setCodigoPart(cod); 	 					 
 	 					var html_ = "";
 	 					html_ = '<option value="">Selecione o participante...</option>';
 	 					$.each(participantes_class_json, function(i, c) {
-	 						html_ += '<option value="'+c.usuario.codigo+'" ' + (i == 0 ? "selected" : "" ) + ' >'+c.posicao+'º '+c.usuario.nome+' ('+c.usuario.codigo+' ) - '+ c.usuario.departamento +'</option>';
-	 					});
+	 						html_ += '<option value="'+c.usuario.codigo+'" ' + (c.usuario.codigo == codigoPart ? "selected" : "" ) + ' >'+c.posicao+'º '+c.usuario.nome+' ('+c.usuario.codigo+' ) - '+ c.usuario.departamento +'</option>';
+	 					}); 
 	 					if (participantes_class_json.length > 0) {
-	 						setCodigoPart(participantes_class_json[0].usuario.codigo);	
 	 						// popula grafico....
 	 						google.setOnLoadCallback(drawChart_line);
 	 					}	 					
@@ -51,7 +63,7 @@
 	 					$('#id_load').empty();
 	 		});
 		}
-		
+		 
 	    function drawChart_line() {	    
 	 		$.getJSON('/tdv/get_historico_colocacao_json/?codigo='+codigoPart,  
 	 				 function(retorno_historico) { 

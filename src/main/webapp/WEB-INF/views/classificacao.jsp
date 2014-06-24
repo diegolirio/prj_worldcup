@@ -132,12 +132,7 @@
 	 					// Busca o historico desse primeiro...
 	 					// Popula o historico no Grid...
 	 		});
-		}		
-		
-		function show_full__(url, alt, larg) {
-			w = window.open(url,'','height=650, width=1170, top=100, left=30, scrollbars=no, resizable=no');	
-		}			
-		
+		}				
 		
 	</script>
 

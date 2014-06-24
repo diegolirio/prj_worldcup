@@ -2,6 +2,14 @@
 	
    <div class="navbar navbar-default navbar-fixed-top ">
       <div class="container">
+		 <div class="navbar-header">
+		      <button class="navbar-toggle" type="button" data-toggle="collapse" data-target=".bs-navbar-collapse">
+		        <span class="sr-only">Toggle navigation</span>
+		        <span class="icon-bar"></span>
+		        <span class="icon-bar"></span>
+		        <span class="icon-bar"></span> 
+		      </button>
+		 </div>      
         <div class="navbar-header">
           <a href="/tdv" class="navbar-brand"><img src="/tdv/static/img/xlogo_heigth_25.png" class="img-responsive"/></a>
           <a href="/tdv" class="navbar-brand"><img title="java programming" alt="java programming" src="/tdv/static/img/java.png" class="img-responsive" height="25px" width="25px"/></a>
@@ -13,6 +21,7 @@
 <!--             <li><a href="/tdv/plus_info">Estatisticas</a></li> -->
           </ul>
           <ul class="nav navbar-nav navbar-right"> 
+          	<li><a href="/tdv/hist_col_chart_line?usuario_codigo=${classificacao_u.usuario.codigo}" onclick="show_full__(this.href); return false;"><small> Historico de colocacao </small></a></li>
           	<li><a href="/tdv/simulacao_classificacao?usuario_codigo=${classificacao_u.usuario.codigo}"><span class="glyphicon glyphicon-sort"> Simulação</span></a></li>
             <li><a href="/tdv/regras">Regras</a></li>
 <!--             <li><a data-toggle="modal" data-target="#id_modal_send_mail" href="#"><span class="glyphicon glyphicon-envelope"></span></a></li> -->
@@ -101,6 +110,10 @@
 	 			alert('Email enviiado com sucesso para '+email);
 	 			$('#id_email').val('');
 	 		});
+	 		
+			function show_full__(url, alt, larg) {
+				w = window.open(url,'','height=650, width=1170, top=100, left=30, scrollbars=no, resizable=no');	
+			}		 		
 	 		
 	 </script>
 	 
