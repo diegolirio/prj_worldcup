@@ -41,7 +41,7 @@
 		var codigoPart = -1;
 		
 		function setCodigoPart(codigo) {
-			codigoPart = codigo == null ? participantes_class_json[0].usuario.codigo : codigo;
+			codigoPart = (codigo == null || codigo == "" ? participantes_class_json[0].usuario.codigo : codigo);
 		}
 		
 		function get_all_participantes() {   
