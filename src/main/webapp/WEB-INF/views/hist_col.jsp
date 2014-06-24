@@ -1,19 +1,7 @@
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
-<%@ page session="false" %>
-<html>
-<head>
-	<title>Estatisticas </title>
-	<link rel="shortcut icon" href="/tdv/static/img/ball_24.gif">
-	 <link href="/tdv/static/bootstrap/css/__bootstrap.min.css" rel="stylesheet">
-	 <link href="/tdv/static/bootstrap/css/__bootstrap.css" rel="stylesheet">	
-	 <link href="/tdv/static/bootstrap/css/my_css.css" rel="stylesheet"> 	
-</head>
-<body>
-
-	<jsp:include page="menu.jsp"></jsp:include>
-	
-	<div class="container hidden-xs">  
+	 <link href="/tdv/static/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+	 <link href="/tdv/static/bootstrap/css/bootstrap.css" rel="stylesheet">	
+	 
+	<div class="container-fluid hidden-xs">  
 	
 			<div class="row">
 				<select class="form-control" id="id_cbb_part">
@@ -21,20 +9,13 @@
 				</select>
 			</div>
 			<div class="row">
-				<div id="id_char_line" style="width: 100%; height: 300px;"><img src="/tdv/static/img/350.gif"/></div>
-			</div>
-	
-			<div class="row">
-				<div class="pull-right" id="id_load"><img src="/tdv/static/img/g.gif"/></div>
-				<h2 class="text-info" style="text-shadow: 2px -2px white;"><img src="/tdv/static/img/logo_70_t.png" /> Participantes</h2>		
+				<div id="id_char_line" style="width: 100%; height: 500px;"><center><br/><img src="/tdv/static/img/350.gif"/></center></div>
 			</div>
 			<br/><br/> 
 	</div> 
-	
-	<jsp:include page="footer.jsp"></jsp:include>
-	
+	 
 	<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>	
-	<script type="text/javascript" src="https://www.google.com/jsapi" class="hidden-xs"></script>
+	<script type="text/javascript" src="https://www.google.com/jsapi"></script>
 	<script type="text/javascript" class="hidden-xs">
 	
 		var participantes_class_json = [];
@@ -76,20 +57,29 @@
 	 				 function(retorno_historico) { 
 	 					//alert(JSON.stringify(retorno_historico));
 						var data = get_data_line(retorno_historico);
-						var options = {
-								title: 'Histótico de Colocação',
-								//width:900, height:300,
-								vAxis: {maxValue: 10, direction: -1} // Inverte a Coluna em ordem crescente...
-							  };
-						var chart = new google.visualization.LineChart(document.getElementById('id_char_line'));		
-						chart.draw(data, options);
+						var codigoLider = codigoPart == participantes_class_json[0].usuario.codigo ? participantes_class_json[1].usuario.codigo : participantes_class_json[0].usuario.codigo;  
+						var nomeLider = codigoPart == participantes_class_json[0].usuario.codigo ? participantes_class_json[1].usuario.nome : participantes_class_json[0].usuario.nome;						
+						$.getJSON('/tdv/get_historico_colocacao_json/?codigo='+codigoLider,  
+								  function(retorno_historico_lider) {
+											data.addColumn('number', nomeLider); 
+											$.each(retorno_historico_lider, function(i, l) {
+												data.setValue(i, 2, l.posicao);					
+											});								
+											var options = {
+													title: 'Histótico de Colocação',
+													//width:900, height:300,
+													vAxis: {maxValue: 10, direction: -1} // Inverte a Coluna em ordem crescente...
+												  };
+											var chart = new google.visualization.LineChart(document.getElementById('id_char_line'));		
+											chart.draw(data, options);							
+						});
 	 		});
 	    }
 	    
 	    function get_data_line(historico_json) {
 			var data = new google.visualization.DataTable();
 			data.addColumn('string', 'Jogos');
-			data.addColumn('number', 'Colocação');
+			data.addColumn('number', get_name_user(codigoPart));
 			data.addRows(historico_json.length);
 			$.each(historico_json, function(i, h) {
 				data.setValue(i, 0, h.tabela.timeA + " x " + h.tabela.timeB);
@@ -102,7 +92,15 @@
 	    	setCodigoPart($(this).val());
 	    	drawChart_line();
 	    });		
+	    
+	    function get_name_user(codigo) {
+	    	var nome_ = null;
+			$.each(participantes_class_json, function(i, c) {
+					if(codigo == c.usuario.codigo) {
+						nome_ = c.usuario.nome;
+					}
+				});
+			return nome_;
+	    }	    
 	</script>
-
-</body>
-</html>
+	

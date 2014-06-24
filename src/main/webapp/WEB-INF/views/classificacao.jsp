@@ -5,44 +5,26 @@
 <head>
 	<title>Classificacao </title>
 	<link rel="shortcut icon" href="/tdv/static/img/ball_24.gif">
-	 <link href="/tdv/static/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-	 <link href="/tdv/static/bootstrap/css/bootstrap.css" rel="stylesheet">	
-	 <link href="/tdv/static/bootstrap/css/my_css.css" rel="stylesheet"> 	
+	 <link href="/tdv/static/bootstrap/css/__bootstrap.min.css" rel="stylesheet">
+	 <link href="/tdv/static/bootstrap/css/__bootstrap.css" rel="stylesheet">	
+	 <link href="/tdv/static/bootstrap/css/my_css.css" rel="stylesheet"> 	 
 </head>
 <body>
 
 	<jsp:include page="menu.jsp"></jsp:include>
 	
 	
-<!-- 	<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true"> -->
-<!-- 	    <div class="modal-dialog modal-lg"> -->
-<!-- 	      <div class="modal-content">	 -->
-<!-- 	        <div class="modal-header"> -->
-<!-- 	          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button> -->
-<!-- 	          <h4 class="modal-title" id="myLargeModalLabel">Participante</h4> -->
-<!-- 	        </div> -->
-<!-- 	        <div class="modal-body"> -->
-<!-- 				<div> -->
-<!-- 					<select class="form-control" id="id_cbb_part"> -->
-<!-- 					  	<option value="">Carregando...</option> -->
-<!-- 					</select>					 -->
-<!-- 				</div> -->
-<!-- 				<div id="id_char_line" ><img src="/tdv/static/img/350.gif"/></div> -->
-<!-- 	        </div> -->
-<!-- 	      </div>/.modal-content -->
-<!-- 	    </div>/.modal-dialog -->
-<!-- 	</div>/.modal	  -->
-	
-	
 	<!-- 	Conteudo -->
 	<div class="container">  
 	
 			<div class="row">
-<%-- 				<h3 class="pull-right"><a href="/tdv/simulacao_classificacao?usuario_codigo=${classificacao_u.usuario.codigo}"><span class="text-success glyphicon glyphicon-sort" style="text-shadow: 2px -2px white"> Simulação</span></a></h3> --%>
+ 				<h3 class="pull-right hidden-xs"><a href="/tdv/hist_col_chart_line?usuario_codigo=${classificacao_u.usuario.codigo}" onclick="show_full__(this.href); return false;"><span class="text-danger" style="text-shadow: 2px -2px white"> <img src="/tdv/static/img/glyphicons_040_stats.png"/> Histórico de Colocação</span></a></h3> 
 <!--  				<button class="btn btn-primary pull-right" id="id_plus_info_class" data-toggle="modal" data-target=".bs-example-modal-lg">Large modal</button> -->
 				<h2 class="text-info" style="text-shadow: 2px -2px white;"><img src="/tdv/static/img/logo_70_t.png" /> Classificação dos participantes</h2>		
 			</div>
-			<br/><br/> 
+			<br/><br/>   
+			
+<%-- 			<jsp:include page="hist_col_chart_line.jsp"></jsp:include> --%>
 	
 			<div class="panel panel-primary">
 				<div class="panel-heading">Classificação<a title="Alterar" href="#"><span class="glyphicon glyphicon-pencil"></span></a><span class="pull-right">${qtdeJogosFinalizados} jogos finalizados de ${qtdeJogos}</span></div>
@@ -151,6 +133,10 @@
 	 					// Popula o historico no Grid...
 	 		});
 		}		
+		
+		function show_full__(url, alt, larg) {
+			w = window.open(url,'','height=650, width=1170, top=100, left=30, scrollbars=no, resizable=no');	
+		}			
 		
 		
 	</script>

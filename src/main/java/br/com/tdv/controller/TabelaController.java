@@ -87,6 +87,11 @@ public class TabelaController {
 		return "plus_info";
 	}
 	
+	@RequestMapping(value="/hist_col_chart_line", method=RequestMethod.GET)
+	public String histColpage() {
+		return "hist_col"; 
+	}	
+	
 	@RequestMapping(value="/jogos_all", method=RequestMethod.GET)
 	@ResponseBody
 	public List<Tabela> getTabelaJson() {

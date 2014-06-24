@@ -5,8 +5,26 @@
 <head>
 	<title>Simulação</title>
 	 <link rel="shortcut icon" href="/tdv/static/img/ball_24.gif">
-	 <link href="/tdv/static/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-	 <link href="/tdv/static/bootstrap/css/bootstrap.css" rel="stylesheet">	 
+	 <link href="/tdv/static/bootstrap/css/__bootstrap.min.css" rel="stylesheet">
+	 <link href="/tdv/static/bootstrap/css/__bootstrap.css" rel="stylesheet">	 
+<!-- 	<link href="http://bootswatch.com/cerulean/bootstrap.csss" rel="stylesheet"> -->
+<!-- 	<link href="http://bootswatch.com/cerulean/bootstrap.css" rel="stylesheet"> -->
+
+    <script> 
+
+     var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-23019901-1']);
+      _gaq.push(['_setDomainName', "bootswatch.com"]);
+        _gaq.push(['_setAllowLinker', true]);
+      _gaq.push(['_trackPageview']);
+
+     (function() {
+       var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+       ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+       var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+     })();
+
+    </script>	
 </head>
 <body>
 
@@ -69,9 +87,9 @@
 	
 	<jsp:include page="footer.jsp"></jsp:include>
 	
-	<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
-	<script type="text/javascript" src="/tdv/static/bootstrap/js/bootstrap.js"></script>
-	<script type="text/javascript" src="/tdv/static/bootstrap/js/bootstrap.min.js"></script>
+	<script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+	<script type="text/javascript" src="http://bootswatch.com/assets/js/bootswatch.js"></script>
+	<script type="text/javascript" src="http://bootswatch.com/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 	 
 	 <script type="text/javascript">
 	 	

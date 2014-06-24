@@ -5,8 +5,8 @@
 <head>
 	<title>Bolão Della Volpe 2014</title>
 	<link rel="shortcut icon" href="/tdv/static/img/ball_24.gif">
-	 <link href="/tdv/static/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-	 <link href="/tdv/static/bootstrap/css/bootstrap.css" rel="stylesheet">		
+	 <link href="/tdv/static/bootstrap/css/__bootstrap.min.css" rel="stylesheet">
+	 <link href="/tdv/static/bootstrap/css/__bootstrap.css" rel="stylesheet">		
 	 <link href="/tdv/static/bootstrap/css/my_css.css" rel="stylesheet">
 </head>
 <body>

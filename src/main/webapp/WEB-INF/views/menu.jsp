@@ -1,31 +1,5 @@
 	<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 	
-	<!-- Modal Enviar Email -->
-	<div class="modal fade" id="id_modal_send_mail" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-	  <div class="modal-dialog">
-	    <div class="modal-content">
-	      <div class="modal-header">
-	        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-	        <h4 class="modal-title" id="myModalLabel">Enviar Email</h4>
-	      </div>
-		      <div class="modal-body" id="id_content">
-		      
-				<div class="form-group">
-				    <div class="col-sm-10">
-				      <input type="email" class="form-control" id="id_email" placeholder="Email">
-				    </div>
-			    </div>
-	
-		      </div>
-		      <div class="modal-footer">
-		      	<a href="#" class="btn btn-primary" id="id_sendmail"><span class="glyphicon glyphicon-send"> Enviar</span></a>
-		        <button type="button" class="btn btn-danger" data-dismiss="modal">Fechar</button>
-		      </div>
-	    </div>
-	  </div>
-	</div>
-
-	
    <div class="navbar navbar-default navbar-fixed-top ">
       <div class="container">
         <div class="navbar-header">
